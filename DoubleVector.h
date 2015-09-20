@@ -3,6 +3,7 @@
 #include <utility>
 #include <initializer_list>
 #include <vector>
+#include <string>
 #include <iostream>
 
 
@@ -46,6 +47,7 @@ public:
 private:
     double* pd;
     std::size_t nSize;
+    void check(std::size_t, std::string) const;
 };
 
 

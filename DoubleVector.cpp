@@ -1,5 +1,7 @@
 
 #include "DoubleVector.h"
+#include <stdexcept>   // out_of_range()
+
 
 // constructors:
 // construct from initializer_list
@@ -27,7 +29,7 @@ DoubleVector::DoubleVector(const DoubleVector& obj):
 DoubleVector& DoubleVector::operator=(const DoubleVector& obj){
     auto new_pd = new double[obj.nSize];
     for (std::size_t i=0; i<obj.nSize; ++i) {new_pd[i] = obj.pd[i];}
-    delete pd;
+    delete[] pd;
     pd    = new_pd;
     nSize = obj.nSize;
     std::cout << "copy assignment" << std::endl;
@@ -56,10 +58,18 @@ std::size_t DoubleVector::Size() const {return nSize;}
 
 // random access
 double& DoubleVector::operator[](std::size_t i){
-    if (i > nSize-1) {std::cerr << "out of index !" << std::endl;}
+    check(i, "index out of range!");
     return pd[i];
 }
 double DoubleVector::operator[](std::size_t i) const{
-    if (i > nSize-1) {std::cerr << "out of index !" << std::endl;}
+    check(i, "index out of range!");
     return pd[i];
 }
+
+
+// private member function
+void DoubleVector::check(std::size_t x, std::string msg) const{
+    if (x > nSize-1) {throw std::out_of_range(msg);}
+}
+
+
